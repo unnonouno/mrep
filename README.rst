@@ -91,3 +91,9 @@ Example
 
 `(<pos=名詞>|<pos=動詞>)*`
   matches repetition of nouns or verbs
+
+
+License
+-------
+
+This program is distributed under the MIT license.

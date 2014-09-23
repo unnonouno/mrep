@@ -30,5 +30,6 @@ setup(
         'command/miura',
     ],
     install_requires=requires,
+    license='MIT',
     )
 
