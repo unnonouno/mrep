@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tag_annotator</title>
+  <title>MIURA</title>
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 </head>
 <body>
@@ -28,7 +28,8 @@
       <a href="/find?pat=<pos%3d名詞>">名詞</a>,
       <a href="/find?pat=<pos%3d名詞><pos%3d助詞>">名詞-助詞</a>,
       <a href="/find?pat=<pos%3d名詞>*">名詞*</a>,
-      <a href="/find?pat=<pos%3d名詞>*<pos=助詞><pos%3d名詞>*">名詞*-助詞-名詞*</a>,
+      <a href="/find?pat=<pos%3d名詞>*<pos%3d助詞><pos%3d名詞>*">名詞*-助詞-名詞*</a>,
+      <a href="/find?pat=(<pos%3d名詞>|<pos%3d助詞>)*">(名詞|助詞)*</a>,
       <a href="/find?pat=<pos%3d感動詞>">感動詞</a>
     </small>
   </form>
