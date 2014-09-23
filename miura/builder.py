@@ -1,0 +1,84 @@
+import pattern
+import re
+
+# exp = sub EOF
+# sub = s|sub | s
+# s = seq | e
+# seq = star seq | star
+# star = factor '*' | factor 
+# factor = (sub) | . | <>
+
+
+# t = t* | t|t | et
+# e = <> | . | (t)
+#
+# t = (t)t' | <>t' | .t'
+# t' = epsilon | *t' | |tt' | t
+
+def parse(s):
+    _, t = exp(s, 0)
+    return t
+
+def consume(s, pos, c):
+    if s[pos] != c:
+        raise Exception()
+    return pos + 1
+
+def exp(s, pos):
+    p, t = seq(s, pos)
+    if p != len(s):
+        raise Exception('"%s"' % s[p:])
+    return p, t
+
+def seq(s, pos):
+    p, t = star(s, pos)
+    return seq_rest(s, p, t)
+
+def seq_rest(s, pos, t):
+    if pos >= len(s):
+        return (pos, t)
+    c = s[pos]
+    if c == '|':
+        p, t2 = star(s, pos + 1)
+        p, t_r = seq_rest(s, p, t2)
+        return (p, pattern.Select(t, t_r))
+    elif c == '<' or c == '.' or c == '(':
+        p, t2 = star(s, pos)
+        return seq_rest(s, p, pattern.Sequence(t, t2))
+    else:
+        return (pos, t)
+
+def star(s, pos):
+    p, t = term(s, pos)
+    if p < len(s) and s[p] == '*':
+        return (p + 1, pattern.Repeat(t))
+    else:
+        return (p, t)
+
+def term(s, pos):
+    if pos >= len(s):
+        raise Exception()
+    c = s[pos]
+    if c == '(':
+        p, t = seq(s, pos + 1)
+        p = consume(s, p, ')')
+        return (p, t)
+    elif c == '<':
+        m = re.match(r'<([^>]+)=([^>]+)>', s[pos:])
+        if not m:
+            raise Exception()
+        p = pos + m.end()
+        return p, pattern.Condition(lambda x: m.group(1) in x and x[m.group(1)] == m.group(2))
+
+    elif c == '.':
+        return pos + 1, pattern.Condition(lambda x: True)
+    else:
+        raise Exception()
+
+if __name__ == '__main__':
+    print(parse('.'))
+    print(parse('.<x=y>'))
+    print(parse('(.)'))
+    print(parse('(.)*'))
+    print(parse('.|<x=y>'))
+    print(parse('.|<x=y>.'))
