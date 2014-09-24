@@ -72,13 +72,3 @@ class Sequence(object):
 
     def __repr__(self):
         return repr(self.first) + ':' + repr(self.second)
-
-def show(s, pos):
-    print(s, pos)
-
-if __name__ == '__main__':
-    Condition(lambda x: 'x'==x).match('x', 0, show)
-    Repeat(Condition(lambda x: 'x'==x)).match('xxx', 0, show)
-    Select(Condition(lambda x: 'x'==x), Condition(lambda x: 'y')).match('yx', 0, show)
-    Sequence(Condition(lambda x: 'x'==x), Condition(lambda x: 'y'==x)).match('xy', 0, show)
-    Sequence(Repeat(Condition(lambda x: 'x'==x)), Condition(lambda x: 'y'==x)).match('xxxy', 0, show)
