@@ -31,5 +31,6 @@ setup(
     ],
     install_requires=requires,
     license='MIT',
+    test_suite='test',
     )
 
