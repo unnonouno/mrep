@@ -2,6 +2,12 @@
  MIURA: Morpheme I U Regexp A
 ==============================
 
+.. image:: https://travis-ci.org/unnonouno/miura.svg?branch=master
+   :target: https://travis-ci.org/unnonouno/miura
+
+.. image:: https://coveralls.io/repos/unnonouno/miura/badge.png?branch=master
+   :target: https://coveralls.io/r/unnonouno/miura?branch=master
+
 MIURA is a regular expression matcher for morpheme sequences.
 You can find morpheme sub-sequences that match a given pattern, such as noun sequences.
 
