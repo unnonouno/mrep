@@ -21,7 +21,7 @@ def parse(s):
 
 def consume(s, pos, c):
     if s[pos] != c:
-        raise Exception()
+        raise Exception('"%s" is expected, but "%s" is given' % (c, s[pos]))
     return pos + 1
 
 def exp(s, pos):
@@ -57,7 +57,7 @@ def star(s, pos):
 
 def term(s, pos):
     if pos >= len(s):
-        raise Exception()
+        raise Exception('unexpected eos is found')
     c = s[pos]
     if c == '(':
         p, t = seq(s, pos + 1)
@@ -66,19 +66,11 @@ def term(s, pos):
     elif c == '<':
         m = re.match(r'<([^>]+)=([^>]+)>', s[pos:])
         if not m:
-            raise Exception()
+            raise Exception('invalid match pattern')
         p = pos + m.end()
         return p, pattern.Condition(lambda x: m.group(1) in x and x[m.group(1)] == m.group(2))
 
     elif c == '.':
         return pos + 1, pattern.Condition(lambda x: True)
     else:
-        raise Exception()
-
-if __name__ == '__main__':
-    print(parse('.'))
-    print(parse('.<x=y>'))
-    print(parse('(.)'))
-    print(parse('(.)*'))
-    print(parse('.|<x=y>'))
-    print(parse('.|<x=y>.'))
+        raise Exception('"(", "<" or "." is expected, but "%s" is given' % c)
