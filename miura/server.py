@@ -3,14 +3,14 @@
 import argparse
 import json
 import os
+import traceback
 
 import tornado.ioloop
 import tornado.web
 
-import builder
-import morph
-import pattern
-import traceback
+import miura.builder as bulder
+import miura.morph as morph
+import miura.pattern as pattern
 
 class Database(object):
     def __init__(self, sentences):

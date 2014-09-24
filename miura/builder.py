@@ -1,4 +1,4 @@
-import pattern
+import miura.pattern as pattern
 import re
 
 # exp = sub EOF
