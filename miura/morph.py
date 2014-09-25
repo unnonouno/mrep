@@ -3,8 +3,12 @@
 import MeCab
 
 def parse(s):
-    tagger = MeCab.Tagger()
-    node = tagger.parseToNode(s)
+    model = MeCab.Model_create('')
+    tagger = model.createTagger()
+    lattice = model.createLattice()
+    lattice.set_sentence(s)
+    tagger.parse(lattice)
+    node = lattice.bos_node()
     morphs = []
     while node:
         if node.surface != '':
@@ -19,4 +23,6 @@ def parse(s):
 
 if __name__ == '__main__':
     import json
-    print(json.dumps(parse('今日は晴れです')))
+    text = '今日は晴れです'
+    print(json.dumps(parse(text)))
+    print(text)
