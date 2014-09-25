@@ -15,6 +15,24 @@ import re
 # t = (t)t' | <>t' | .t'
 # t' = epsilon | *t' | |tt' | t
 
+class ParseError(Exception):
+    pass
+
+class InvalidCharacter(ParseError):
+    def __init__(self, pos, expect, actual):
+        self.pos = pos
+        self.expect = expect
+        self.actual = actual
+
+    def __str__(self):
+        if len(self.expect) == 1:
+            subject = '"%s" is' % self.expect[0]
+        else:
+            except_last = ', '.join(['"%s"' % s for s in self.expect[:-1]])
+            last = self.expect[-1]
+            subject = '%s or "%s" are' % (except_last, last)
+        return '%s expected, but "%s" is given' % (subject, self.actual)
+
 def parse(s):
     _, t = exp(s, 0)
     return t

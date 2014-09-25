@@ -69,3 +69,16 @@ class SeqTest(unittest.TestCase):
         self.assertIsNotNone(t)
         self.assertEqual(8, p)
         self.assertEqual('(OR . (OR .:. .:.:.))', repr(t))
+
+class InvalidCharacterTest(unittest.TestCase):
+    def testOne(self):
+        e = miura.builder.InvalidCharacter(1, ['x'], 'a')
+        self.assertEqual('"x" is expected, but "a" is given', str(e))
+
+    def testTwo(self):
+        e = miura.builder.InvalidCharacter(1, ['x', 'y'], 'a')
+        self.assertEqual('"x" or "y" are expected, but "a" is given', str(e))
+
+    def testThree(self):
+        e = miura.builder.InvalidCharacter(1, ['x', 'y', 'z'], 'a')
+        self.assertEqual('"x", "y" or "z" are expected, but "a" is given', str(e))
