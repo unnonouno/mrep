@@ -13,6 +13,9 @@ class TermTest(unittest.TestCase):
         self.assertIsNotNone(t)
         self.assertEqual(5, p)
         self.assertEqual('.', repr(t))
+        ps = []
+        t.match([{'x': 'y'}], 0, lambda s, p: ps.append(p))
+        self.assertEqual([1], ps)
 
     def testParen(self):
         p, t = miura.builder.term('(.)', 0)

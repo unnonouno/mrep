@@ -105,7 +105,7 @@ def term(s, pos):
         p = pos + m.end()
         key = m.group(1)
         value = m.group(2)
-        return p, pattern.Condition(lambda x: ky in x and x[key] == value)
+        return p, pattern.Condition(lambda x: key in x and x[key] == value)
 
     elif c == '.':
         return pos + 1, pattern.Condition(lambda x: True)
