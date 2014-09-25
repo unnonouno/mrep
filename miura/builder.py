@@ -33,19 +33,34 @@ class InvalidCharacter(ParseError):
             subject = '%s or "%s" are' % (except_last, last)
         return '%s expected, but "%s" is given' % (subject, self.actual)
 
+class RedundantCharacters(ParseError):
+    def __init__(self, pos, redundant):
+        self.pos = pos
+        self.redundant = redundant
+
+    def __str__(self):
+        return 'Redundant characters remain: "%s"' % self.redundant
+
+class InvalidPattern(ParseError):
+    def __init__(self, pos):
+        self.pos = pos
+
+    def __str__(self):
+        return 'Invalid morpheme pattern'
+
 def parse(s):
     _, t = exp(s, 0)
     return t
 
 def consume(s, pos, c):
     if s[pos] != c:
-        raise Exception('"%s" is expected, but "%s" is given' % (c, s[pos]))
+        raise IvalidCharacter(pos, c, s[pos])
     return pos + 1
 
 def exp(s, pos):
     p, t = seq(s, pos)
     if p != len(s):
-        raise Exception('"%s"' % s[p:])
+        raise RedundantCharacters(p, s[p:])
     return p, t
 
 def seq(s, pos):
@@ -75,7 +90,7 @@ def star(s, pos):
 
 def term(s, pos):
     if pos >= len(s):
-        raise Exception('unexpected eos is found')
+        raise InvalidCharacter(pos, ['(', '<', '.'], 'EOS')
     c = s[pos]
     if c == '(':
         p, t = seq(s, pos + 1)
@@ -84,11 +99,11 @@ def term(s, pos):
     elif c == '<':
         m = re.match(r'<([^>]+)=([^>]+)>', s[pos:])
         if not m:
-            raise Exception('invalid match pattern')
+            raise InvalidPattern(pos)
         p = pos + m.end()
         return p, pattern.Condition(lambda x: m.group(1) in x and x[m.group(1)] == m.group(2))
 
     elif c == '.':
         return pos + 1, pattern.Condition(lambda x: True)
     else:
-        raise Exception('"(", "<" or "." is expected, but "%s" is given' % c)
+        raise InvalidCharacter(pos, ['(', '<', '.'], c)
