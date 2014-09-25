@@ -101,7 +101,9 @@ def term(s, pos):
         if not m:
             raise InvalidPattern(pos)
         p = pos + m.end()
-        return p, pattern.Condition(lambda x: m.group(1) in x and x[m.group(1)] == m.group(2))
+        key = m.group(1)
+        value = m.group(2)
+        return p, pattern.Condition(lambda x: ky in x and x[key] == value)
 
     elif c == '.':
         return pos + 1, pattern.Condition(lambda x: True)
