@@ -53,8 +53,10 @@ def parse(s):
     return t
 
 def consume(s, pos, c):
+    if pos >= len(s):
+        raise InvalidCharacter(pos, c, 'EOS')
     if s[pos] != c:
-        raise IvalidCharacter(pos, c, s[pos])
+        raise InvalidCharacter(pos, c, s[pos])
     return pos + 1
 
 def exp(s, pos):

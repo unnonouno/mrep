@@ -20,6 +20,29 @@ class TermTest(unittest.TestCase):
         self.assertEqual(3, p)
         self.assertEqual('.', repr(t))
 
+    def testInvalidCharacter(self):
+        with self.assertRaises(miura.builder.InvalidCharacter) as cm:
+            miura.builder.term('|.', 0)
+        self.assertEqual(0, cm.exception.pos)
+        self.assertEqual('|', cm.exception.actual)
+
+    def testInvalidPattern(self):
+        with self.assertRaises(miura.builder.InvalidPattern) as cm:
+            miura.builder.term('<x', 0)
+        self.assertEqual(0, cm.exception.pos)
+
+    def testUnclosedParen(self):
+        with self.assertRaises(miura.builder.InvalidCharacter) as cm:
+            miura.builder.term('(.**', 0)
+        self.assertEqual(3, cm.exception.pos)
+        self.assertEqual('*', cm.exception.actual)
+
+    def testEOSbeforeClose(self):
+        with self.assertRaises(miura.builder.InvalidCharacter) as cm:
+            miura.builder.term('(.', 0)
+        self.assertEqual(2, cm.exception.pos)
+        self.assertEqual('EOS', cm.exception.actual)
+
 class StarTest(unittest.TestCase):
     def testStar(self):
         p, t = miura.builder.star('.*', 0)
@@ -69,6 +92,13 @@ class SeqTest(unittest.TestCase):
         self.assertIsNotNone(t)
         self.assertEqual(8, p)
         self.assertEqual('(OR . (OR .:. .:.:.))', repr(t))
+
+class ExpTest(unittest.TestCase):
+    def testRedundant(self):
+        with self.assertRaises(miura.builder.RedundantCharacters) as cm:
+            miura.builder.exp('.*XYZ', 0)
+        self.assertEqual(2, cm.exception.pos)
+        self.assertEqual('XYZ', cm.exception.redundant)
 
 class InvalidCharacterTest(unittest.TestCase):
     def testOne(self):
