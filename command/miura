@@ -6,25 +6,17 @@ import sys
 import miura.builder
 import miura.pattern
 import miura.morph
+import miura.printer
 
 def run(f):
+    printer = miura.printer.Printer(RED, ENDC)
     for s in f:
         ms = miura.morph.parse(s)
         results = miura.pattern.find(ms, matcher)
         if len(results) == 0:
             continue
 
-        matched = [False] * len(ms)
-        for result in results:
-            for i in range(result['begin'], result['end']):
-                matched[i] = True
-        for i, m in enumerate(ms):
-            if matched[i] and (not matched[i - 1] or i == 0):
-                sys.stdout.write(RED)
-            sys.stdout.write(m['surface'])
-            if (i == len(ms) - 1) or not matched[i + 1] and matched[i]:
-                sys.stdout.write(ENDC)
-            sys.stdout.write(' ')
+        printer.print_result(ms, results, sys.stdout)
         sys.stdout.write('\n')
 
 if __name__ == '__main__':
