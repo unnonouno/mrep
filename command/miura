@@ -25,7 +25,11 @@ if __name__ == '__main__':
     parser.add_argument('file', nargs='*', help='data file')
     args = parser.parse_args()
 
-    matcher = miura.builder.parse(args.pattern)
+    try:
+        matcher = miura.builder.parse(args.pattern)
+    except miura.builder.ParseError as e:
+        sys.stderr.write('%s (@%d)\n' % (str(e), e.pos))
+        sys.exit(-1)
 
     ESCAPE = '\033[%sm'
     RED = ESCAPE % '31'
