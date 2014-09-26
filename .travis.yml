@@ -9,6 +9,22 @@ python:
 install:
   - pip install tornado
   - pip install coveralls
+  - wget https://mecab.googlecode.com/files/mecab-0.996.tar.gz
+  - tar zxvf mecab-0.996.tar.gz
+  - pushd mecab-0.996
+  - ./configure
+  - make && make check && sudo make install
+  - popd
+  - sudo ldconfig
+  - wget http://mecab.googlecode.com/files/mecab-ipadic-2.7.0-20070801.tar.gz
+  - tar zxvf mecab-ipadic-2.7.0-20070801.tar.gz
+  - pushd mecab-ipadic-2.7.0-20070801
+  - ./configure --with-charset=utf8
+  - make && make check && sudo make install
+  - popd
+  - sudo ldconfig
+  - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then pip install mecab-python3; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then wget https://mecab.googlecode.com/files/mecab-python-0.994.tar.gz && pip install mecab-python-0.994.tar.gz ; fi
 
 script:
   - coverage run --source=miura setup.py test
