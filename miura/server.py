@@ -14,11 +14,12 @@ import miura.pattern as pattern
 
 class Database(object):
     def __init__(self, sentences):
+        parser = morph.MeCabParser()
         data = []
         for s in sentences:
             data.append({
                 'original': s,
-                'morphemes': morph.parse(s),
+                'morphemes': parser.parse(s),
             })
 
         self.data = data

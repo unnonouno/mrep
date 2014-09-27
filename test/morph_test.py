@@ -5,7 +5,8 @@ import miura.morph
 
 class ParseTest(unittest.TestCase):
     def test_parse(self):
-        ms = miura.morph.parse('我輩は猫だ')
+        parser = miura.morph.MeCabParser()
+        ms = parser.parse('我輩は猫だ')
         expect = [
             {'surface': '我輩', 'pos': '名詞'},
             {'surface': 'は', 'pos': '助詞'},

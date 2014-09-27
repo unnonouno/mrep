@@ -10,8 +10,9 @@ import miura.printer
 
 def run(f):
     printer = miura.printer.Printer(RED, ENDC)
+    parser = miura.morph.MeCabParser()
     for s in f:
-        ms = miura.morph.parse(s)
+        ms = parser.parse(s)
         results = miura.pattern.find(ms, matcher)
         if len(results) == 0:
             continue
