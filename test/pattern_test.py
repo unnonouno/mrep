@@ -89,3 +89,13 @@ class RepeatTest(PatternTest):
     def testMatchThree(self):
         self.pattern.match('xxxy', 0, self.collector.collect)
         self.assertEqual([3, 2, 1], self.collector.results)
+
+class FindTest(unittest.TestCase):
+    def testFind(self):
+        c = miura.pattern.Repeat(miura.pattern.Condition(lambda x: 'x'==x))
+        result = miura.pattern.find('xxyxxxy', c)
+        expect = [
+            {'match': 'xx', 'begin': 0, 'end': 2},
+            {'match': 'xxx', 'begin': 3, 'end': 6},
+        ]
+        self.assertEqual(expect, result)
