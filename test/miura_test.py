@@ -14,8 +14,7 @@ class MiuraFunctionalTest(unittest.TestCase):
 
     def call(self, *args):
         command = ' '.join(['python', 'command/miura'] + list(args))
-        env = {'PYTHONPATH': '.'}
-        return subprocess.check_output(command, shell=True, env=env)
+        return subprocess.check_output(command, shell=True)
 
     def call_test(self, index, name, pattern):
         result = self.call('"%s"' % pattern, 'test/data/%d.txt' % index)
@@ -36,8 +35,7 @@ class MiuraFunctionalTest(unittest.TestCase):
 
     def test_stdin(self):
         command = 'cat test/data/1.txt | python command/miura .'
-        env = {'PYTHONPATH': '.'}
-        result = subprocess.check_output(command, shell=True, env=env)
+        result = subprocess.check_output(command, shell=True)
         expect = self.read_expect(1, 'dot')
         self.assertEqual(expect, result)
 
