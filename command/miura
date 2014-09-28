@@ -30,7 +30,7 @@ if __name__ == '__main__':
         matcher = miura.builder.parse(args.pattern)
     except miura.builder.ParseError as e:
         sys.stderr.write('%s (@%d)\n' % (str(e), e.pos))
-        sys.exit(-1)
+        sys.exit(3)
 
     ESCAPE = '\033[%sm'
     RED = ESCAPE % '31'
