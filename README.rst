@@ -103,3 +103,9 @@ License
 -------
 
 This program is distributed under the MIT license.
+
+
+Copyright
+---------
+
+(c) 2014, Yuya Unno.
