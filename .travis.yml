@@ -23,8 +23,7 @@ install:
   - make && make check && sudo make install
   - popd
   - sudo ldconfig
-  - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then pip install mecab-python3; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then wget https://mecab.googlecode.com/files/mecab-python-0.994.tar.gz && pip install mecab-python-0.994.tar.gz ; fi
+  - pip install mecab-python3
 
 script:
   - PYTHONPATH=.:$PYTHONPATH coverage run --source=miura,command setup.py test
