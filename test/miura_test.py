@@ -17,7 +17,7 @@ class MiuraFunctionalTest(unittest.TestCase):
         return subprocess.check_output(command, shell=True)
 
     def call_test(self, index, name, pattern):
-        result = self.call('"%s"' % pattern, 'test/data/%d.txt' % index)
+        result = self.call('--color', 'always', '"%s"' % pattern, 'test/data/%d.txt' % index)
         expect = self.read_expect(index, name)
         self.assertEqual(expect, result)
 
@@ -34,7 +34,7 @@ class MiuraFunctionalTest(unittest.TestCase):
         self.call_test(1, 'noun_or_verb', '<pos=名詞>|<pos=動詞>')
 
     def test_stdin(self):
-        command = 'cat test/data/1.txt | python command/miura .'
+        command = 'cat test/data/1.txt | python command/miura . --color always'
         result = subprocess.check_output(command, shell=True)
         expect = self.read_expect(1, 'dot')
         self.assertEqual(expect, result)

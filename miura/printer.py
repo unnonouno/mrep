@@ -20,8 +20,14 @@ class Printer(object):
         out.write('\n')
 
 class OnlyMatchPrinter(object):
+    def __init__(self, begin, end):
+        self.begin = begin
+        self.end = end
+
     def print_result(self, seq, results, out):
         for match in results:
             subseq = seq[match['begin']: match['end']]
+            out.write(self.begin)
             out.write(' '.join([m['surface'] for m in subseq]))
+            out.write(self.end)
             out.write('\n')
