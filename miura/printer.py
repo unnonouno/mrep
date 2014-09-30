@@ -17,3 +17,11 @@ class Printer(object):
             out.write(m['surface'])
             if (i == len(seq) - 1 or not matched[i + 1]) and matched[i]:
                 out.write(self.end)
+        out.write('\n')
+
+class OnlyMatchPrinter(object):
+    def print_result(self, seq, results, out):
+        for match in results:
+            subseq = seq[match['begin']: match['end']]
+            out.write(' '.join([m['surface'] for m in subseq]))
+            out.write('\n')

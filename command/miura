@@ -8,8 +8,7 @@ import miura.pattern
 import miura.morph
 import miura.printer
 
-def run(f):
-    printer = miura.printer.Printer(RED, ENDC)
+def run(f, printer):
     parser = miura.morph.MeCabParser()
     for s in f:
         ms = parser.parse(s)
@@ -18,12 +17,13 @@ def run(f):
             continue
 
         printer.print_result(ms, results, sys.stdout)
-        sys.stdout.write('\n')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='MIURA: morpheme i u regexp a')
     parser.add_argument('pattern', help='pattern')
     parser.add_argument('file', nargs='*', help='data file')
+    parser.add_argument('-o', '--only-matching', action='store_true',
+                        help='print only matching')
     args = parser.parse_args()
 
     try:
@@ -36,10 +36,15 @@ if __name__ == '__main__':
     RED = ESCAPE % '31'
     ENDC = ESCAPE % '0'
 
+    if args.only_matching:
+        printer = miura.printer.OnlyMatchPrinter()
+    else:
+        printer = miura.printer.Printer(RED, ENDC)
+
     if len(args.file) > 0:
         for file in args.file:
             with open(file) as f:
-                run(f)
+                run(f, printer)
     else:
-        run(sys.stdin)
+        run(sys.stdin, printer)
 
