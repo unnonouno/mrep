@@ -53,7 +53,7 @@ class OnlyMatchingPrinterTest(unittest.TestCase):
 
 class PrinterTest(unittest.TestCase):
     def setUp(self):
-        self.printer = miura.printer.OnlyMatchPrinter()
+        self.printer = miura.printer.OnlyMatchPrinter('[', ']')
         self.out = StringIO()
         self.sequence = [
             {'surface': 'x'},
@@ -70,21 +70,21 @@ class PrinterTest(unittest.TestCase):
             {'begin': 1, 'end': 2},
         ]
         self.printer.print_result(self.sequence, result, self.out)
-        self.assertEqual('y\n', self.out.getvalue())
+        self.assertEqual('[y]\n', self.out.getvalue())
 
     def test_first(self):
         result = [
             {'begin': 0, 'end': 2},
         ]
         self.printer.print_result(self.sequence, result, self.out)
-        self.assertEqual('x y\n', self.out.getvalue())
+        self.assertEqual('[x y]\n', self.out.getvalue())
 
     def test_last(self):
         result = [
             {'begin': 1, 'end': 3},
         ]
         self.printer.print_result(self.sequence, result, self.out)
-        self.assertEqual('y z\n', self.out.getvalue())
+        self.assertEqual('[y z]\n', self.out.getvalue())
 
     def test_two(self):
         result = [
@@ -92,5 +92,5 @@ class PrinterTest(unittest.TestCase):
             {'begin': 1, 'end': 2},
         ]
         self.printer.print_result(self.sequence, result, self.out)
-        self.assertEqual('x\ny\n', self.out.getvalue())
+        self.assertEqual('[x]\n[y]\n', self.out.getvalue())
 

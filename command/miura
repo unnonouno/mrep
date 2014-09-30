@@ -18,12 +18,31 @@ def run(f, printer):
 
         printer.print_result(ms, results, sys.stdout)
 
+def select_color(color):
+    if args.color == 'never':
+        is_color_mode = False
+    elif args.color == 'always':
+        is_color_mode = True
+    elif args.color == 'auto':
+        is_color_mode = sys.stdout.isatty()
+
+    if is_color_mode:
+        ESCAPE = '\033[%sm'
+        RED = ESCAPE % '31'
+        ENDC = ESCAPE % '0'
+        return (RED, ENDC)
+    else:
+        return ('', '')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='MIURA: morpheme i u regexp a')
     parser.add_argument('pattern', help='pattern')
     parser.add_argument('file', nargs='*', help='data file')
     parser.add_argument('-o', '--only-matching', action='store_true',
                         help='print only matching')
+    parser.add_argument('--color', type=str, choices=['never', 'auto', 'always'],
+                        default='auto',
+                        help='color mode. select from "never", "auto" and "always". (default: auto)')
     args = parser.parse_args()
 
     try:
@@ -32,14 +51,12 @@ if __name__ == '__main__':
         sys.stderr.write('%s (@%d)\n' % (str(e), e.pos))
         sys.exit(3)
 
-    ESCAPE = '\033[%sm'
-    RED = ESCAPE % '31'
-    ENDC = ESCAPE % '0'
+    (color_begin, color_end) = select_color(args.color)
 
     if args.only_matching:
-        printer = miura.printer.OnlyMatchPrinter()
+        printer = miura.printer.OnlyMatchPrinter(color_begin, color_end)
     else:
-        printer = miura.printer.Printer(RED, ENDC)
+        printer = miura.printer.Printer(color_begin, color_end)
 
     if len(args.file) > 0:
         for file in args.file:
