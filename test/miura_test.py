@@ -21,6 +21,10 @@ class MiuraFunctionalTest(unittest.TestCase):
         expect = self.read_expect(index, name)
         self.assertEqual(expect, result)
 
+        result = self.call('--color', 'never', '"%s"' % pattern, 'test/data/%d.txt' % index)
+        expect = self.read_expect(index, 'nocolor_' + name)
+        self.assertEqual(expect, result)
+
     def test_dot(self):
         self.call_test(1, 'dot', '.')
 
