@@ -2,21 +2,12 @@
 
 import argparse
 import sys
+from multiprocessing import Pool
 
 import miura.builder
 import miura.pattern
 import miura.morph
 import miura.printer
-
-def run(f, printer):
-    parser = miura.morph.MeCabParser()
-    for s in f:
-        ms = parser.parse(s)
-        results = miura.pattern.find(ms, matcher)
-        if len(results) == 0:
-            continue
-
-        printer.print_result(ms, results, sys.stdout)
 
 def select_color(color):
     if args.color == 'never':
@@ -58,10 +49,27 @@ if __name__ == '__main__':
     else:
         printer = miura.printer.Printer(color_begin, color_end)
 
+    parser = miura.morph.make_mecab_parser()
+    def conv(s):
+        ms = parser.parse(s)
+        results = miura.pattern.find(ms, matcher)
+        if len(results) == 0:
+            return None
+
+        return (ms, results)
+
+    pool = Pool()
+    def run(f):
+        for ret in pool.imap(conv, f):
+            if ret is None:
+                continue
+            printer.print_result(ret[0], ret[1], sys.stdout)
+
+
     if len(args.file) > 0:
         for file in args.file:
             with open(file) as f:
-                run(f, printer)
+                run(f)
     else:
-        run(sys.stdin, printer)
+        run(sys.stdin)
 
