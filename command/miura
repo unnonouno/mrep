@@ -49,7 +49,7 @@ if __name__ == '__main__':
     else:
         printer = miura.printer.Printer(color_begin, color_end)
 
-    parser = miura.morph.make_mecab_parser()
+    parser = miura.morph.MeCabParser()
     def conv(s):
         ms = parser.parse(s)
         results = miura.pattern.find(ms, matcher)
