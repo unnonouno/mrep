@@ -1,21 +1,25 @@
 def find(s, m):
+    class Collector(object):
+        def __init__(self):
+            self.pos = None
+
+        def collect(self, s, pos):
+            if self.pos is None:
+                self.pos = pos
+
     result = []
 
     i = 0
     while i < len(s):
-        skip = [None]
-        def collect(s, pos):
-            if skip[0] is None:
-                result.append({
-                    'match': s[0:pos],
-                    'begin': i,
-                    'end': i + pos,
-                })
-                skip[0] = pos
-
-        m.match(s[i:], 0, collect)
-        if skip[0] is not None:
-            i += skip[0]
+        collector = Collector()
+        m.match(s[i:], 0, collector.collect)
+        if collector.pos is not None:
+            result.append({
+                'match': s[i: i + collector.pos],
+                'begin': i,
+                'end': i + collector.pos,
+            })
+            i += collector.pos
         else:
             i += 1
 
