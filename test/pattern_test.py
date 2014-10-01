@@ -99,3 +99,10 @@ class FindTest(unittest.TestCase):
             {'match': 'xxx', 'begin': 3, 'end': 6},
         ]
         self.assertEqual(expect, result)
+
+class ExpTimeTest(unittest.TestCase):
+    def testFind(self):
+        from miura.pattern import Repeat
+        # This pattern matches exponential combination
+        c = Repeat(Repeat(Repeat(Repeat(miura.pattern.Condition(lambda x: 'x'==x)))))
+        result = miura.pattern.find('xxxxxxxxxx', c)
