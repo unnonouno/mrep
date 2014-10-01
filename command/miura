@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     pool = Pool()
     def run(f):
-        for ret in pool.imap(conv, f):
+        for ret in pool.imap(conv, f, chunksize=10):
             if ret is None:
                 continue
             printer.print_result(ret[0], ret[1], sys.stdout)
