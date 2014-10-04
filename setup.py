@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import glob
 from setuptools import setup
 
 requires = [
