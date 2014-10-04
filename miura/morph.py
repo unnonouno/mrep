@@ -49,7 +49,8 @@ class MeCabProcParser(object):
         proc = subprocess.Popen(
             self.command,
             stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE)
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         if sys.version_info >= (3, 0):
             import locale
             encoding = locale.getpreferredencoding()
