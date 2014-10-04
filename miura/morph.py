@@ -1,11 +1,14 @@
 import re
 import subprocess
 
-def make_mecab_parser(arg=''):
+def make_mecab_parser(mecab_command=None, arg=''):
+    if mecab_command:
+        return MeCabProcParser(mecab_command)
+
     try:
         import MeCab
     except ImportError:
-        return MeCabProcParser(arg)
+        return MeCabProcParser('mecab')
 
     return MeCabParser(arg)
 
@@ -36,10 +39,11 @@ class MeCabParser(object):
         return morphs
 
 class MeCabProcParser(object):
-    def __init__(self, command='mecab'):
+    def __init__(self, command):
         self.command = command
 
     def parse(self, s):
+        # TODO(unno): need to check error
         proc = subprocess.Popen(
             self.command,
             stdin=subprocess.PIPE,

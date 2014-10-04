@@ -10,7 +10,7 @@ class ParseTest(unittest.TestCase):
         self.run_test_parse(parser)
 
     def test_mecabproc_parser(self):
-        parser = miura.morph.MeCabProcParser()
+        parser = miura.morph.MeCabProcParser('mecab')
         self.run_test_parse(parser)
 
     def run_test_parse(self, parser):

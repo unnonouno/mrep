@@ -50,6 +50,8 @@ if __name__ == '__main__':
                         help='Show line number')
     parser.add_argument('--mecab-arg', type=str, default='',
                         help='argument to pass to mecab (ex: "-r /path/to/resource/file")')
+    parser.add_argument('--mecab-command', type=str,
+                        help='path to mecab command. if not given, miura try to use python binding first, and then try to find mecab command from default PATH')
     args = parser.parse_args()
 
     try:
@@ -65,7 +67,7 @@ if __name__ == '__main__':
     else:
         printer = miura.printer.Printer(color_begin, color_end)
 
-    parser = miura.morph.MeCabParser(args.mecab_arg)
+    parser = miura.morph.make_mecab_parser(args.mecab_command, args.mecab_arg)
 
     if len(args.file) > 0:
         for file in args.file:
