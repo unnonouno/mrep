@@ -2,7 +2,10 @@ import MeCab
 
 class MeCabParser(object):
     def __init__(self, arg=''):
-        self.model = MeCab.Model_create(arg)
+        model = MeCab.Model_create(arg)
+        if model is None:
+            raise Exception('Cannot initialize mecab')
+        self.model = model
         
     def parse(self, s):
         tagger = self.model.createTagger()
