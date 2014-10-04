@@ -16,7 +16,6 @@ Requirement
 ===========
 
 - Python >=2.7
-- tornado
 - mecab
 
 
@@ -46,19 +45,6 @@ positional arguments:
 
 optional arguments:
   -h, --help  show this help message and exit
-
-
-miuraserver
------------
-
-MIURA: morpheme i u regexp a
-
-positional arguments:
-  data                  data file
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -p PORT, --port PORT  port number
 
 
 Pattern
