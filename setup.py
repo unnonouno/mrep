@@ -4,7 +4,6 @@ import glob
 from setuptools import setup
 
 requires = [
-    'tornado',
     ]
 
 setup(
@@ -16,18 +15,7 @@ setup(
     url='https://github.com/unnonouno/miura',
     packages=['miura',
               ],
-    package_data={
-        'miura': [
-            'template/*.html',
-            'static/css/*.css',
-            'static/css/*.png',
-            'static/img/*.png',
-            'static/img/*.jpg',
-            'static/js/*.js',
-            ]
-        },
     scripts=[
-        'command/miuraserver',
         'command/miura',
     ],
     install_requires=requires,
