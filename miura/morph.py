@@ -1,8 +1,6 @@
 import re
 import subprocess
 
-import MeCab
-
 def make_mecab_parser(arg=''):
     try:
         import MeCab
@@ -13,6 +11,7 @@ def make_mecab_parser(arg=''):
 
 class MeCabParser(object):
     def __init__(self, arg=''):
+        import MeCab
         model = MeCab.Model_create(arg)
         if model is None:
             raise Exception('Cannot initialize mecab')
