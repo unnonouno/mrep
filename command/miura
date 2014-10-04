@@ -60,8 +60,11 @@ if __name__ == '__main__':
 
     if len(args.file) > 0:
         for file in args.file:
-            with open(file) as f:
-                run(f, printer)
+            try:
+                with open(file) as f:
+                    run(f, printer)
+            except IOError as e:
+                sys.stderr.write('%s\n' % e)
     else:
         run(sys.stdin, printer)
 
