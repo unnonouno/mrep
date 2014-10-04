@@ -16,7 +16,7 @@ class MeCabParser(object):
                 feature = node.feature
                 morphs.append({
                     'surface': node.surface,
-                    'pos': feature.split(',')[0],
+                    'pos': feature[0:feature.find(',')],
                     'feature': feature,
                 })
             node = node.next
