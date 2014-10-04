@@ -8,8 +8,7 @@ import miura.pattern
 import miura.morph
 import miura.printer
 
-def run(f, printer, show_line_number):
-    parser = miura.morph.MeCabParser()
+def run(f, parser, printer, show_line_number):
     for i, s in enumerate(f):
         ms = parser.parse(s)
         results = miura.pattern.find(ms, matcher)
@@ -47,6 +46,8 @@ if __name__ == '__main__':
                         help='color mode. select from "never", "auto" and "always". (default: auto)')
     parser.add_argument('-n', '--line-number', action='store_true',
                         help='Show line number')
+    parser.add_argument('--mecab-arg', type=str, default='',
+                        help='argument to pass to mecab (ex: "-r /path/to/resource/file")')
     args = parser.parse_args()
 
     try:
@@ -62,13 +63,15 @@ if __name__ == '__main__':
     else:
         printer = miura.printer.Printer(color_begin, color_end)
 
+    parser = miura.morph.MeCabParser(args.mecab_arg)
+
     if len(args.file) > 0:
         for file in args.file:
             try:
                 with open(file) as f:
-                    run(f, printer, args.line_number)
+                    run(f, parser, printer, args.line_number)
             except IOError as e:
                 sys.stderr.write('%s\n' % e)
     else:
-        run(sys.stdin, printer, args.line_number)
+        run(sys.stdin, parser, printer, args.line_number)
 
