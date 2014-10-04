@@ -1,5 +1,6 @@
 import re
 import subprocess
+import sys
 
 def make_mecab_parser(mecab_command=None, arg=''):
     if mecab_command:
@@ -48,9 +49,19 @@ class MeCabProcParser(object):
             self.command,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE)
-        out = proc.communicate(s)[0]
+        if sys.version_info >= (3, 0):
+            import locale
+            encoding = locale.getpreferredencoding()
+            out = proc.communicate(s.encode(encoding))[0].decode(encoding)
+        else:
+            out = proc.communicate(s)[0]
         morphs = []
-        from cStringIO import StringIO
+
+        if sys.version_info >= (3, 0):
+            from io import StringIO
+        else:
+            from cStringIO import StringIO
+
         for l in StringIO(out):
             line = l.strip()
             if line == 'EOS':
