@@ -3,6 +3,7 @@
 from setuptools import setup
 
 requires = [
+    'mecab-python3',
     ]
 
 setup(
