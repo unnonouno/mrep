@@ -21,7 +21,7 @@ setup(
     packages=['miura',
               ],
     scripts=[
-        'command/miura',
+        'scripts/miura',
     ],
     install_requires=requires,
     license='MIT',
