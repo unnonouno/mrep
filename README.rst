@@ -16,13 +16,18 @@ Requirement
 ===========
 
 - Python >=2.7
-- mecab
+- mecab-python3 ( https://github.com/SamuraiT/mecab-python3 )
 
 
 Install
 =======
 
-Use `setup.py`.
+::
+
+   $ pip install miura
+
+
+If you want to install it from its source, use `setup.py`.
 
 ::
 
@@ -32,19 +37,23 @@ Use `setup.py`.
 Usage
 =====
 
-miura
------
+::
 
-usage: miura [-h] pattern file
-
-MIURA: morpheme i u regexp a
+   usage: miura [-h] [-o] [--color {never,auto,always}] [-n] [--mecab-arg MECAB_ARG]
+                PATTERN [FILE [FILE ...]]
 
 positional arguments:
-  pattern     pattern
-  file        data file
+  :`PATTERN`:               pattern
+  :`FILE`:                  data file
 
 optional arguments:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  -o, --only-matching   print only matching
+  --color COLOR         color mode. select from "never", "auto" and "always". (default: auto)
+  -n, --line-number     Show line number
+  --mecab-arg MECAB_ARG
+                        argument to pass to mecab (ex: "-r
+                        /path/to/resource/file")
 
 
 Pattern
@@ -94,4 +103,4 @@ This program is distributed under the MIT license.
 Copyright
 ---------
 
-(c) 2014, Yuya Unno.
+\(c) 2014, Yuya Unno.
