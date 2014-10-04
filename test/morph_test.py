@@ -17,3 +17,7 @@ class ParseTest(unittest.TestCase):
         for e, m in zip(expect, ms):
             self.assertEqual(e['surface'], m['surface'])
             self.assertEqual(e['pos'], m['pos'])
+
+    def test_invalid_argument(self):
+        self.assertRaises(Exception,
+                          lambda: miura.morph.MeCabParser('--invalid-arg'))
