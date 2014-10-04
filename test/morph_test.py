@@ -4,8 +4,16 @@ import unittest
 import miura.morph
 
 class ParseTest(unittest.TestCase):
-    def test_parse(self):
+
+    def test_mecab_parser(self):
         parser = miura.morph.MeCabParser()
+        self.run_test_parse(parser)
+
+    def test_mecabproc_parser(self):
+        parser = miura.morph.MeCabProcParser()
+        self.run_test_parse(parser)
+
+    def run_test_parse(self, parser):
         ms = parser.parse('我輩は猫だ')
         expect = [
             {'surface': '我輩', 'pos': '名詞'},
