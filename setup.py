@@ -13,6 +13,7 @@ setup(
     description='MIURA: pattern matcher for morpheme sequences',
     author='Yuya Unno',
     author_email='unnonouno@gmail.com',
+    url='https://github.com/unnonouno/miura',
     packages=['miura',
               ],
     package_data={
