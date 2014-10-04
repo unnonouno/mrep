@@ -4,12 +4,12 @@ import sys
 
 def make_mecab_parser(mecab_command=None, arg=''):
     if mecab_command:
-        return MeCabProcParser(mecab_command)
+        return MeCabProcParser(mecab_command, arg)
 
     try:
         import MeCab
     except ImportError:
-        return MeCabProcParser('mecab')
+        return MeCabProcParser('mecab', arg)
 
     return MeCabParser(arg)
 
@@ -40,8 +40,9 @@ class MeCabParser(object):
         return morphs
 
 class MeCabProcParser(object):
-    def __init__(self, command):
-        self.command = command
+    def __init__(self, command, arg=''):
+        import shlex
+        self.command = [command] + shlex.split(arg)
 
     def parse(self, s):
         # TODO(unno): need to check error
