@@ -8,6 +8,7 @@ import miura.pattern
 import miura.morph
 import miura.printer
 
+
 def run(f, parser, printer, show_line_number):
     for i, s in enumerate(f):
         ms = parser.parse(s)
@@ -18,6 +19,7 @@ def run(f, parser, printer, show_line_number):
         if show_line_number:
             sys.stdout.write('%d:' % (i + 1))
         printer.print_result(ms, results, sys.stdout)
+
 
 def select_color(color):
     if args.color == 'never':
@@ -35,21 +37,26 @@ def select_color(color):
     else:
         return ('', '')
 
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='MIURA: morpheme i u regexp a')
+    parser = argparse.ArgumentParser(
+        description='MIURA: morpheme i u regexp a')
     parser.add_argument('pattern', metavar='PATTERN',
                         help='pattern')
     parser.add_argument('file', metavar='FILE',
                         nargs='*', help='data file')
     parser.add_argument('-o', '--only-matching', action='store_true',
                         help='print only matching')
-    parser.add_argument('--color', type=str, choices=['never', 'auto', 'always'],
+    parser.add_argument('--color', type=str,
+                        choices=['never', 'auto', 'always'],
                         default='auto',
-                        help='color mode. select from "never", "auto" and "always". (default: auto)')
+                        help='color mode. select from "never", "auto" and '
+                        '"always". (default: auto)')
     parser.add_argument('-n', '--line-number', action='store_true',
                         help='Show line number')
     parser.add_argument('--mecab-arg', type=str, default='',
-                        help='argument to pass to mecab (ex: "-r /path/to/resource/file")')
+                        help='argument to pass to mecab '
+                        '(ex: "-r /path/to/resource/file")')
     args = parser.parse_args()
 
     try:
@@ -76,4 +83,3 @@ if __name__ == '__main__':
                 sys.stderr.write('%s\n' % e)
     else:
         run(sys.stdin, parser, printer, args.line_number)
-

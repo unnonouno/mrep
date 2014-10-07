@@ -1,2 +1,5 @@
-import test.pattern_test, test.builder_test, test.printer_test, test.morph_test
+import test.pattern_test
+import test.builder_test
+import test.printer_test
+import test.morph_test
 import test.miura_test

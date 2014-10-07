@@ -8,6 +8,7 @@ else:
 
 import miura.printer
 
+
 class OnlyMatchingPrinterTest(unittest.TestCase):
     def setUp(self):
         self.printer = miura.printer.Printer('[', ']')
@@ -51,6 +52,7 @@ class OnlyMatchingPrinterTest(unittest.TestCase):
         self.printer.print_result(self.sequence, result, self.out)
         self.assertEqual('[x y] z\n', self.out.getvalue())
 
+
 class PrinterTest(unittest.TestCase):
     def setUp(self):
         self.printer = miura.printer.OnlyMatchPrinter('[', ']')
@@ -93,4 +95,3 @@ class PrinterTest(unittest.TestCase):
         ]
         self.printer.print_result(self.sequence, result, self.out)
         self.assertEqual('[x]\n[y]\n', self.out.getvalue())
-

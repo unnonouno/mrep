@@ -1,6 +1,7 @@
 import unittest
 import miura.pattern
 
+
 class Collector(object):
     def __init__(self):
         self.results = []
@@ -8,14 +9,16 @@ class Collector(object):
     def collect(self, s, pos):
         self.results.append(pos)
 
+
 class PatternTest(unittest.TestCase):
     def setUp(self):
         self.collector = Collector()
 
+
 class ConditionTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        self.pattern = miura.pattern.Condition(lambda x: 'x'==x)
+        self.pattern = miura.pattern.Condition(lambda x: 'x' == x)
 
     def testMatch(self):
         self.pattern.match('x', 0, self.collector.collect)
@@ -29,11 +32,12 @@ class ConditionTest(PatternTest):
         self.pattern.match('', 0, self.collector.collect)
         self.assertEqual([], self.collector.results)
 
+
 class SequenceTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        c1 = miura.pattern.Condition(lambda x: 'x'==x)
-        c2 = miura.pattern.Condition(lambda x: 'y'==x)
+        c1 = miura.pattern.Condition(lambda x: 'x' == x)
+        c2 = miura.pattern.Condition(lambda x: 'y' == x)
         self.pattern = miura.pattern.Sequence(c1, c2)
 
     def testMatch(self):
@@ -56,8 +60,8 @@ class SequenceTest(PatternTest):
 class SelectTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        c1 = miura.pattern.Condition(lambda x: 'x'==x)
-        c2 = miura.pattern.Condition(lambda x: 'y'==x)
+        c1 = miura.pattern.Condition(lambda x: 'x' == x)
+        c2 = miura.pattern.Condition(lambda x: 'y' == x)
         self.pattern = miura.pattern.Select(c1, c2)
 
     def testMatchFirst(self):
@@ -72,10 +76,11 @@ class SelectTest(PatternTest):
         self.pattern.match('z', 0, self.collector.collect)
         self.assertEqual([], self.collector.results)
 
+
 class RepeatTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        c = miura.pattern.Condition(lambda x: 'x'==x)
+        c = miura.pattern.Condition(lambda x: 'x' == x)
         self.pattern = miura.pattern.Repeat(c)
 
     def testMatchOne(self):
@@ -90,9 +95,10 @@ class RepeatTest(PatternTest):
         self.pattern.match('xxxy', 0, self.collector.collect)
         self.assertEqual([3, 2, 1], self.collector.results)
 
+
 class FindTest(unittest.TestCase):
     def testFind(self):
-        c = miura.pattern.Repeat(miura.pattern.Condition(lambda x: 'x'==x))
+        c = miura.pattern.Repeat(miura.pattern.Condition(lambda x: 'x' == x))
         result = miura.pattern.find('xxyxxxy', c)
         expect = [
             {'match': 'xx', 'begin': 0, 'end': 2},
@@ -100,9 +106,10 @@ class FindTest(unittest.TestCase):
         ]
         self.assertEqual(expect, result)
 
+
 class ExpTimeTest(unittest.TestCase):
     def testFind(self):
-        from miura.pattern import Repeat
+        from miura.pattern import Repeat, Condition
         # This pattern matches exponential combination
-        c = Repeat(Repeat(Repeat(Repeat(miura.pattern.Condition(lambda x: 'x'==x)))))
-        result = miura.pattern.find('xxxxxxxxxx', c)
+        c = Repeat(Repeat(Repeat(Repeat(Condition(lambda x: 'x' == x)))))
+        miura.pattern.find('xxxxxxxxxx', c)

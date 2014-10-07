@@ -26,6 +26,7 @@ def find(s, m):
 
     return result
 
+
 class Repeat(object):
     def __init__(self, matcher):
         self.matcher = matcher
@@ -44,6 +45,7 @@ class Repeat(object):
     def __repr__(self):
         return '(* ' + repr(self.matcher) + ')'
 
+
 class Condition(object):
     def __init__(self, func):
         self.func = func
@@ -55,9 +57,10 @@ class Condition(object):
     def __repr__(self):
         return '.'
 
+
 class Select(object):
     def __init__(self, left, right):
-        self.left = left;
+        self.left = left
         self.right = right
 
     def match(self, s, pos, after):
@@ -69,6 +72,7 @@ class Select(object):
 
     def __repr__(self):
         return '(OR ' + repr(self.left) + ' ' + repr(self.right) + ')'
+
 
 class Sequence(object):
     def __init__(self, first, second):

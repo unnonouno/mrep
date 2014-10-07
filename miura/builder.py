@@ -1,22 +1,10 @@
 import miura.pattern as pattern
 import re
 
-# exp = sub EOF
-# sub = s|sub | s
-# s = seq | e
-# seq = star seq | star
-# star = factor '*' | factor 
-# factor = (sub) | . | <>
-
-
-# t = t* | t|t | et
-# e = <> | . | (t)
-#
-# t = (t)t' | <>t' | .t'
-# t' = epsilon | *t' | |tt' | t
 
 class ParseError(Exception):
     pass
+
 
 class InvalidCharacter(ParseError):
     def __init__(self, pos, expect, actual):
@@ -33,6 +21,7 @@ class InvalidCharacter(ParseError):
             subject = '%s or "%s" are' % (except_last, last)
         return '%s expected, but "%s" is given' % (subject, self.actual)
 
+
 class RedundantCharacters(ParseError):
     def __init__(self, pos, redundant):
         self.pos = pos
@@ -41,6 +30,7 @@ class RedundantCharacters(ParseError):
     def __str__(self):
         return 'Redundant characters remain: "%s"' % self.redundant
 
+
 class InvalidPattern(ParseError):
     def __init__(self, pos):
         self.pos = pos
@@ -48,9 +38,11 @@ class InvalidPattern(ParseError):
     def __str__(self):
         return 'Invalid morpheme pattern'
 
+
 def parse(s):
     _, t = exp(s, 0)
     return t
+
 
 def consume(s, pos, c):
     if pos >= len(s):
@@ -59,15 +51,18 @@ def consume(s, pos, c):
         raise InvalidCharacter(pos, c, s[pos])
     return pos + 1
 
+
 def exp(s, pos):
     p, t = seq(s, pos)
     if p != len(s):
         raise RedundantCharacters(p, s[p:])
     return p, t
 
+
 def seq(s, pos):
     p, t = star(s, pos)
     return seq_rest(s, p, t)
+
 
 def seq_rest(s, pos, t):
     if pos >= len(s):
@@ -83,12 +78,14 @@ def seq_rest(s, pos, t):
     else:
         return (pos, t)
 
+
 def star(s, pos):
     p, t = term(s, pos)
     if p < len(s) and s[p] == '*':
         return (p + 1, pattern.Repeat(t))
     else:
         return (p, t)
+
 
 def term(s, pos):
     if pos >= len(s):

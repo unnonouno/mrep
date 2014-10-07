@@ -3,6 +3,7 @@
 import unittest
 import miura.morph
 
+
 class ParseTest(unittest.TestCase):
     def test_parse(self):
         parser = miura.morph.MeCabParser()

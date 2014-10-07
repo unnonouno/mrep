@@ -19,6 +19,7 @@ class Printer(object):
                 out.write(self.end)
         out.write('\n')
 
+
 class OnlyMatchPrinter(object):
     def __init__(self, begin, end):
         self.begin = begin

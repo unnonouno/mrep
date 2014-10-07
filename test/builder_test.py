@@ -1,6 +1,7 @@
 import unittest
 import miura.builder
 
+
 class TermTest(unittest.TestCase):
     def testDot(self):
         p, t = miura.builder.term('.', 0)
@@ -46,18 +47,20 @@ class TermTest(unittest.TestCase):
         self.assertEqual(2, cm.exception.pos)
         self.assertEqual('EOS', cm.exception.actual)
 
+
 class StarTest(unittest.TestCase):
     def testStar(self):
         p, t = miura.builder.star('.*', 0)
         self.assertIsNotNone(t)
         self.assertEqual(2, p)
         self.assertEqual('(* .)', repr(t))
-        
+
     def testNoStar(self):
         p, t = miura.builder.star('.', 0)
         self.assertIsNotNone(t)
         self.assertEqual(1, p)
         self.assertEqual('.', repr(t))
+
 
 class SeqTest(unittest.TestCase):
     def testOne(self):
@@ -96,12 +99,14 @@ class SeqTest(unittest.TestCase):
         self.assertEqual(8, p)
         self.assertEqual('(OR . (OR .:. .:.:.))', repr(t))
 
+
 class ExpTest(unittest.TestCase):
     def testRedundant(self):
         with self.assertRaises(miura.builder.RedundantCharacters) as cm:
             miura.builder.exp('.*XYZ', 0)
         self.assertEqual(2, cm.exception.pos)
         self.assertEqual('XYZ', cm.exception.redundant)
+
 
 class InvalidCharacterTest(unittest.TestCase):
     def testOne(self):
@@ -114,4 +119,5 @@ class InvalidCharacterTest(unittest.TestCase):
 
     def testThree(self):
         e = miura.builder.InvalidCharacter(1, ['x', 'y', 'z'], 'a')
-        self.assertEqual('"x", "y" or "z" are expected, but "a" is given', str(e))
+        self.assertEqual('"x", "y" or "z" are expected, but "a" is given',
+                         str(e))

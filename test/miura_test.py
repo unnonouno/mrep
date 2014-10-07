@@ -7,6 +7,7 @@ ESCAPE = '\033[%sm'
 RED = ESCAPE % '31'
 ENDC = ESCAPE % '0'
 
+
 class MiuraFunctionalTest(unittest.TestCase):
     def read_expect(self, index, name):
         with open('test/data/%d_%s.result' % (index, name), 'rb') as f:
@@ -17,11 +18,13 @@ class MiuraFunctionalTest(unittest.TestCase):
         return subprocess.check_output(command, shell=True)
 
     def call_test(self, index, name, pattern):
-        result = self.call('--color', 'always', '"%s"' % pattern, 'test/data/%d.txt' % index)
+        result = self.call('--color', 'always', '"%s"' % pattern,
+                           'test/data/%d.txt' % index)
         expect = self.read_expect(index, name)
         self.assertEqual(expect, result)
 
-        result = self.call('--color', 'never', '"%s"' % pattern, 'test/data/%d.txt' % index)
+        result = self.call('--color', 'never', '"%s"' % pattern,
+                           'test/data/%d.txt' % index)
         expect = self.read_expect(index, 'nocolor_' + name)
         self.assertEqual(expect, result)
 
@@ -43,7 +46,6 @@ class MiuraFunctionalTest(unittest.TestCase):
         expect = self.read_expect(1, 'dot')
         self.assertEqual(expect, result)
 
-    
     def test_unknown_argument(self):
         with self.assertRaises(subprocess.CalledProcessError) as cm:
             self.call('--unknown-argument')
