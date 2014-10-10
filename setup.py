@@ -12,7 +12,7 @@ def read(name):
 
 setup(
     name='mrep',
-    version='0.1.0',
+    version='0.1.1',
     description='MREP: morpheme regular expression printer',
     long_description=read('README.rst'),
     author='Yuya Unno',
