@@ -1,12 +1,12 @@
 # encoding: utf-8
 
 import unittest
-import miura.morph
+import mrep.morph
 
 
 class ParseTest(unittest.TestCase):
     def test_parse(self):
-        parser = miura.morph.MeCabParser()
+        parser = mrep.morph.MeCabParser()
         ms = parser.parse('我輩は猫だ')
         expect = [
             {'surface': '我輩', 'pos': '名詞'},
@@ -21,4 +21,4 @@ class ParseTest(unittest.TestCase):
 
     def test_invalid_argument(self):
         self.assertRaises(Exception,
-                          lambda: miura.morph.MeCabParser('--invalid-arg'))
+                          lambda: mrep.morph.MeCabParser('--invalid-arg'))
