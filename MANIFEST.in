@@ -1,0 +1,6 @@
+include README.rst
+include LICENSE
+include ChangeLog.rst
+include scripts/miura
+recursive-include miura *.py
+recursive-include test *.py *.txt *.result
