@@ -8,13 +8,13 @@ RED = ESCAPE % '31'
 ENDC = ESCAPE % '0'
 
 
-class MiuraFunctionalTest(unittest.TestCase):
+class MrepFunctionalTest(unittest.TestCase):
     def read_expect(self, index, name):
         with open('test/data/%d_%s.result' % (index, name), 'rb') as f:
             return f.read()
 
     def call(self, *args):
-        command = ' '.join(['python', 'scripts/miura'] + list(args))
+        command = ' '.join(['python', 'scripts/mrep'] + list(args))
         return subprocess.check_output(command, shell=True)
 
     def call_test(self, index, name, pattern):
@@ -41,7 +41,7 @@ class MiuraFunctionalTest(unittest.TestCase):
         self.call_test(1, 'noun_or_verb', '<pos=名詞>|<pos=動詞>')
 
     def test_stdin(self):
-        command = 'cat test/data/1.txt | python scripts/miura . --color always'
+        command = 'cat test/data/1.txt | python scripts/mrep . --color always'
         result = subprocess.check_output(command, shell=True)
         expect = self.read_expect(1, 'dot')
         self.assertEqual(expect, result)

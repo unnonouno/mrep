@@ -1,4 +1,4 @@
-import miura.pattern as pattern
+import mrep.pattern as pattern
 import re
 
 

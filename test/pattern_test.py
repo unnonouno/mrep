@@ -1,5 +1,5 @@
 import unittest
-import miura.pattern
+import mrep.pattern
 
 
 class Collector(object):
@@ -18,7 +18,7 @@ class PatternTest(unittest.TestCase):
 class ConditionTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        self.pattern = miura.pattern.Condition(lambda x: 'x' == x)
+        self.pattern = mrep.pattern.Condition(lambda x: 'x' == x)
 
     def testMatch(self):
         self.pattern.match('x', 0, self.collector.collect)
@@ -36,9 +36,9 @@ class ConditionTest(PatternTest):
 class SequenceTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        c1 = miura.pattern.Condition(lambda x: 'x' == x)
-        c2 = miura.pattern.Condition(lambda x: 'y' == x)
-        self.pattern = miura.pattern.Sequence(c1, c2)
+        c1 = mrep.pattern.Condition(lambda x: 'x' == x)
+        c2 = mrep.pattern.Condition(lambda x: 'y' == x)
+        self.pattern = mrep.pattern.Sequence(c1, c2)
 
     def testMatch(self):
         self.pattern.match('xy', 0, self.collector.collect)
@@ -60,9 +60,9 @@ class SequenceTest(PatternTest):
 class SelectTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        c1 = miura.pattern.Condition(lambda x: 'x' == x)
-        c2 = miura.pattern.Condition(lambda x: 'y' == x)
-        self.pattern = miura.pattern.Select(c1, c2)
+        c1 = mrep.pattern.Condition(lambda x: 'x' == x)
+        c2 = mrep.pattern.Condition(lambda x: 'y' == x)
+        self.pattern = mrep.pattern.Select(c1, c2)
 
     def testMatchFirst(self):
         self.pattern.match('x', 0, self.collector.collect)
@@ -80,8 +80,8 @@ class SelectTest(PatternTest):
 class RepeatTest(PatternTest):
     def setUp(self):
         PatternTest.setUp(self)
-        c = miura.pattern.Condition(lambda x: 'x' == x)
-        self.pattern = miura.pattern.Repeat(c)
+        c = mrep.pattern.Condition(lambda x: 'x' == x)
+        self.pattern = mrep.pattern.Repeat(c)
 
     def testMatchOne(self):
         self.pattern.match('x', 0, self.collector.collect)
@@ -98,8 +98,8 @@ class RepeatTest(PatternTest):
 
 class FindTest(unittest.TestCase):
     def testFind(self):
-        c = miura.pattern.Repeat(miura.pattern.Condition(lambda x: 'x' == x))
-        result = miura.pattern.find('xxyxxxy', c)
+        c = mrep.pattern.Repeat(mrep.pattern.Condition(lambda x: 'x' == x))
+        result = mrep.pattern.find('xxyxxxy', c)
         expect = [
             {'match': 'xx', 'begin': 0, 'end': 2},
             {'match': 'xxx', 'begin': 3, 'end': 6},
@@ -109,7 +109,7 @@ class FindTest(unittest.TestCase):
 
 class ExpTimeTest(unittest.TestCase):
     def testFind(self):
-        from miura.pattern import Repeat, Condition
+        from mrep.pattern import Repeat, Condition
         # This pattern matches exponential combination
         c = Repeat(Repeat(Repeat(Repeat(Condition(lambda x: 'x' == x)))))
-        miura.pattern.find('xxxxxxxxxx', c)
+        mrep.pattern.find('xxxxxxxxxx', c)

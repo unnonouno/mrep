@@ -6,12 +6,12 @@ if sys.version_info >= (3, 0):
 else:
     from StringIO import StringIO
 
-import miura.printer
+import mrep.printer
 
 
 class OnlyMatchingPrinterTest(unittest.TestCase):
     def setUp(self):
-        self.printer = miura.printer.Printer('[', ']')
+        self.printer = mrep.printer.Printer('[', ']')
         self.out = StringIO()
         self.sequence = [
             {'surface': 'x'},
@@ -55,7 +55,7 @@ class OnlyMatchingPrinterTest(unittest.TestCase):
 
 class PrinterTest(unittest.TestCase):
     def setUp(self):
-        self.printer = miura.printer.OnlyMatchPrinter('[', ']')
+        self.printer = mrep.printer.OnlyMatchPrinter('[', ']')
         self.out = StringIO()
         self.sequence = [
             {'surface': 'x'},

@@ -1,6 +1,6 @@
 include README.rst
 include LICENSE
 include ChangeLog.rst
-include scripts/miura
-recursive-include miura *.py
+include scripts/mrep
+recursive-include mrep *.py
 recursive-include test *.py *.txt *.result

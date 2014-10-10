@@ -3,16 +3,16 @@
 import argparse
 import sys
 
-import miura.builder
-import miura.pattern
-import miura.morph
-import miura.printer
+import mrep.builder
+import mrep.pattern
+import mrep.morph
+import mrep.printer
 
 
 def run(f, parser, printer, show_line_number):
     for i, s in enumerate(f):
         ms = parser.parse(s)
-        results = miura.pattern.find(ms, matcher)
+        results = mrep.pattern.find(ms, matcher)
         if len(results) == 0:
             continue
 
@@ -40,7 +40,7 @@ def select_color(color):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='MIURA: morpheme i u regexp a')
+        description='MREP: morpheme regular expression printer')
     parser.add_argument('pattern', metavar='PATTERN',
                         help='pattern')
     parser.add_argument('file', metavar='FILE',
@@ -60,19 +60,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
-        matcher = miura.builder.parse(args.pattern)
-    except miura.builder.ParseError as e:
+        matcher = mrep.builder.parse(args.pattern)
+    except mrep.builder.ParseError as e:
         sys.stderr.write('%s (@%d)\n' % (str(e), e.pos))
         sys.exit(3)
 
     (color_begin, color_end) = select_color(args.color)
 
     if args.only_matching:
-        printer = miura.printer.OnlyMatchPrinter(color_begin, color_end)
+        printer = mrep.printer.OnlyMatchPrinter(color_begin, color_end)
     else:
-        printer = miura.printer.Printer(color_begin, color_end)
+        printer = mrep.printer.Printer(color_begin, color_end)
 
-    parser = miura.morph.MeCabParser(args.mecab_arg)
+    parser = mrep.morph.MeCabParser(args.mecab_arg)
 
     if len(args.file) > 0:
         for file in args.file:
