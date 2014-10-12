@@ -42,7 +42,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='MREP: morpheme regular expression printer')
     parser.add_argument('pattern', metavar='PATTERN',
-                        help='pattern')
+                        nargs='?', help='pattern')
     parser.add_argument('file', metavar='FILE',
                         nargs='*', help='data file')
     parser.add_argument('-o', '--only-matching', action='store_true',
@@ -57,7 +57,18 @@ if __name__ == '__main__':
     parser.add_argument('--mecab-arg', type=str, default='',
                         help='argument to pass to mecab '
                         '(ex: "-r /path/to/resource/file")')
+    parser.add_argument('--version', action='store_true',
+                        help='show version number')
     args = parser.parse_args()
+
+    if args.version:
+        sys.stdout.write('mrep %s\n' % mrep.__version__)
+        sys.exit(0)
+
+    if args.pattern is None:
+        parser.print_usage()
+        sys.stdout.write('mrep: error: PATTERN is required\n')
+        sys.exit(2)
 
     try:
         matcher = mrep.builder.parse(args.pattern)

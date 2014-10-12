@@ -2,6 +2,7 @@
 
 import unittest
 import subprocess
+from mrep import __version__
 
 ESCAPE = '\033[%sm'
 RED = ESCAPE % '31'
@@ -57,3 +58,13 @@ class MrepFunctionalTest(unittest.TestCase):
             self.call('"<"', 'test/data/1.txt')
 
         self.assertEqual(3, cm.exception.returncode)
+
+    def test_no_pattern(self):
+        with self.assertRaises(subprocess.CalledProcessError) as cm:
+            self.call()
+
+        self.assertEqual(2, cm.exception.returncode)
+
+    def test_version(self):
+        out = self.call('--version')
+        self.assertTrue(__version__ in str(out))
