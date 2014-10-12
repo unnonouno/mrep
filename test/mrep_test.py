@@ -68,3 +68,9 @@ class MrepFunctionalTest(unittest.TestCase):
     def test_version(self):
         out = self.call('--version')
         self.assertTrue(__version__ in str(out))
+
+    def test_invalid_mecab_arg(self):
+        with self.assertRaises(subprocess.CalledProcessError) as cm:
+            self.call('--mecab-arg="--unknown-argument"', '.')
+
+        self.assertEqual(4, cm.exception.returncode)

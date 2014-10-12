@@ -3,10 +3,8 @@ import MeCab
 
 class MeCabParser(object):
     def __init__(self, arg=''):
-        model = MeCab.Model_create(arg)
-        if model is None:
-            raise Exception('Cannot initialize mecab')
-        self.model = model
+        # it may throw RuntimeError
+        self.model = MeCab.Model(arg)
 
     def parse(self, s):
         tagger = self.model.createTagger()

@@ -83,7 +83,12 @@ if __name__ == '__main__':
     else:
         printer = mrep.printer.Printer(color_begin, color_end)
 
-    parser = mrep.morph.MeCabParser(args.mecab_arg)
+    try:
+        parser = mrep.morph.MeCabParser(args.mecab_arg)
+    except Exception as e:
+        sys.stderr.write('Fail to initialize MeCab\n')
+        sys.stderr.write('%s\n' % e)
+        sys.exit(4)
 
     if len(args.file) > 0:
         for file in args.file:
