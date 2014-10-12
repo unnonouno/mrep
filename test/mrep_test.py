@@ -67,4 +67,4 @@ class MrepFunctionalTest(unittest.TestCase):
 
     def test_version(self):
         out = self.call('--version')
-        self.assertTrue(__version__ in out)
+        self.assertTrue(__version__ in str(out))
