@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="mrep : Morpheme Regular Expression Printer">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>mrep</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/unnonouno/mrep">View on GitHub</a>
+
+          <h1 id="project_title">mrep</h1>
+          <h2 id="project_tagline">Morpheme Regular Expression Printer</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/unnonouno/mrep/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/unnonouno/mrep/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><a href="https://travis-ci.org/unnonouno/mrep"><img src="https://travis-ci.org/unnonouno/mrep.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/unnonouno/miura?branch=master"><img src="https://coveralls.io/repos/unnonouno/miura/badge.png?branch=master" alt="Coverage Status"></a></p>
+
+<p>MREP is a regular expression matcher for morpheme sequences.
+You can find morpheme sub-sequences that match a given pattern, such as noun sequences.</p>
+
+<h1>
+<a name="requirement" class="anchor" href="#requirement"><span class="octicon octicon-link"></span></a>Requirement</h1>
+
+<ul>
+<li>Python &gt;=2.7</li>
+<li>mecab-python3 ( <a href="https://github.com/SamuraiT/mecab-python3">https://github.com/SamuraiT/mecab-python3</a> )</li>
+</ul>
+
+<h1>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h1>
+
+<pre><code>   $ pip install mrep
+</code></pre>
+
+<p>If you want to install it from its source, use <code>setup.py</code>.</p>
+
+<pre><code>   $ python setup.py install
+</code></pre>
+
+<h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<pre><code>   usage: mrep [-h] [-o] [--color {never,auto,always}] [-n] [--mecab-arg MECAB_ARG]
+               PATTERN [FILE [FILE ...]]
+</code></pre>
+
+<h2>
+<a name="positional-arguments" class="anchor" href="#positional-arguments"><span class="octicon octicon-link"></span></a>positional arguments</h2>
+
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PATTERN</code></td>
+<td>pattern</td>
+</tr>
+<tr>
+<td><code>FILE</code></td>
+<td>data file</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a name="optional-arguments" class="anchor" href="#optional-arguments"><span class="octicon octicon-link"></span></a>optional arguments</h2>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>-h</code>, <code>--help</code>
+</td>
+<td>show this help message and exit</td>
+</tr>
+<tr>
+<td>
+<code>-o</code>, <code>--only-matching</code>
+</td>
+<td>print only matching</td>
+</tr>
+<tr>
+<td><code>--color COLOR</code></td>
+<td>color mode. select from "never", "auto" and "always". (default: auto)</td>
+</tr>
+<tr>
+<td>
+<code>-n</code>, <code>--line-number</code>
+</td>
+<td>Show line number</td>
+</tr>
+<tr>
+<td><code>--mecab-arg MECAB_ARG</code></td>
+<td>argument to pass to mecab (ex: "-r /path/to/resource/file")</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a name="pattern" class="anchor" href="#pattern"><span class="octicon octicon-link"></span></a>Pattern</h1>
+
+<p><code>.</code>
+  matches all morphemes</p>
+
+<p><code>&lt;surface=XXX&gt;</code>
+  matches morphemes whose surface are <code>XXX</code></p>
+
+<p><code>&lt;pos=XXX&gt;</code>
+  matches morphemes whose POS are <code>XXX</code></p>
+
+<p><code>X*</code>
+  matches repetiion of a pattern X</p>
+
+<p><code>X|Y</code>
+  matches X or Y</p>
+
+<p><code>(X)</code>
+  matches X</p>
+
+<h1>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h1>
+
+<p><code>&lt;pos=名詞&gt;</code>
+  matches a noun</p>
+
+<p><code>&lt;pos=名詞&gt;*</code>
+  matches repetition of nouns</p>
+
+<p><code>&lt;pos=名詞&gt;*&lt;pos=助詞&gt;</code>
+  matches repetition of nouns and a particle</p>
+
+<p><code>(&lt;pos=名詞&gt;|&lt;pos=動詞&gt;)*</code>
+  matches repetition of nouns or verbs</p>
+
+<h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>This program is distributed under the MIT license.</p>
+
+<h1>
+<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h1>
+
+<p>(c) 2014, Yuya Unno.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">mrep maintained by <a href="https://github.com/unnonouno">unnonouno</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
