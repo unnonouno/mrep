@@ -2,6 +2,7 @@
 
 import os
 from setuptools import setup
+from mrep import __version__
 
 requires = [
     'mecab-python3',
@@ -12,7 +13,7 @@ def read(name):
 
 setup(
     name='mrep',
-    version='0.1.1',
+    version=__version__,
     description='MREP: morpheme regular expression printer',
     long_description=read('README.rst'),
     author='Yuya Unno',
