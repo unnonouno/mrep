@@ -87,3 +87,20 @@ class Sequence(object):
 
     def __repr__(self):
         return repr(self.first) + ':' + repr(self.second)
+
+
+class Surface(object):
+    def __init__(self, surface):
+        self.surface = surface
+
+    def match(self, s, pos, after):
+        p = 0
+        while p < len(self.surface) and pos < len(s) and \
+                self.surface[p:].startswith(s[pos]['surface']):
+            p += len(s[pos]['surface'])
+            pos += 1
+            if p == len(self.surface):
+                return after(s, pos)
+
+    def __repr__(self):
+        return self.surface

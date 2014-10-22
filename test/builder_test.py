@@ -48,6 +48,32 @@ class TermTest(unittest.TestCase):
         self.assertEqual('EOS', cm.exception.actual)
 
 
+class SurfaceTest(unittest.TestCase):
+    def testOne(self):
+        p, t = mrep.builder.surface('a', 0)
+        self.assertIsInstance(t, mrep.pattern.Surface)
+        self.assertEqual('a', repr(t))
+        self.assertEqual(1, p)
+
+    def testTwo(self):
+        p, t = mrep.builder.surface('ab', 0)
+        self.assertIsInstance(t, mrep.pattern.Surface)
+        self.assertEqual('ab', repr(t))
+        self.assertEqual(2, p)
+
+    def testPart(self):
+        p, t = mrep.builder.surface('ab.', 0)
+        self.assertIsInstance(t, mrep.pattern.Surface)
+        self.assertEqual('ab', repr(t))
+        self.assertEqual(2, p)
+
+    def testEscape(self):
+        p, t = mrep.builder.surface('a\.b', 0)
+        self.assertIsInstance(t, mrep.pattern.Surface)
+        self.assertEqual('a.b', repr(t))
+        self.assertEqual(4, p)
+
+
 class StarTest(unittest.TestCase):
     def testStar(self):
         p, t = mrep.builder.star('.*', 0)
@@ -103,9 +129,9 @@ class SeqTest(unittest.TestCase):
 class ExpTest(unittest.TestCase):
     def testRedundant(self):
         with self.assertRaises(mrep.builder.RedundantCharacters) as cm:
-            mrep.builder.exp('.*XYZ', 0)
+            mrep.builder.exp('.*)XYZ', 0)
         self.assertEqual(2, cm.exception.pos)
-        self.assertEqual('XYZ', cm.exception.redundant)
+        self.assertEqual(')XYZ', cm.exception.redundant)
 
 
 class InvalidCharacterTest(unittest.TestCase):

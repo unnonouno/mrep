@@ -1,5 +1,6 @@
 import mrep.pattern as pattern
 import re
+from cStringIO import StringIO
 
 
 class ParseError(Exception):
@@ -72,11 +73,11 @@ def seq_rest(s, pos, t):
         p, t2 = star(s, pos + 1)
         p, t_r = seq_rest(s, p, t2)
         return (p, pattern.Select(t, t_r))
-    elif c == '<' or c == '.' or c == '(':
+    elif c == ')':
+        return (pos, t)
+    else:
         p, t2 = star(s, pos)
         return seq_rest(s, p, pattern.Sequence(t, t2))
-    else:
-        return (pos, t)
 
 
 def star(s, pos):
@@ -106,5 +107,37 @@ def term(s, pos):
 
     elif c == '.':
         return pos + 1, pattern.Condition(lambda x: True)
-    else:
+    elif c in ['|', '*', ')']:
         raise InvalidCharacter(pos, ['(', '<', '.'], c)
+    else:
+        return surface(s, pos)
+
+
+def surface(s, pos):
+    buf = StringIO()
+    escape = False
+    for i, c in enumerate(s[pos:]):
+        if escape:
+            if c not in ['(', ')', '<', '.', '*', '|']:
+                raise InvalidCharacter(pos + i,
+                                       ['(', ')', '<', '.', '*', '|'], c)
+                
+            buf.write(c)
+            escape = False
+
+        else:
+            if c in ['(', ')', '<', '.', '*', '|']:
+                suf = buf.getvalue()
+                return pos + i, pattern.Surface(suf)
+
+            elif c == '\\':
+                escape = True
+
+            else:
+                buf.write(c)
+
+    if escape:
+        raise InvalidCharacter(len(s),
+                               ['(', ')', '<', '.', '*', '|'], 'EOS')
+
+    return len(s), pattern.Surface(buf.getvalue())

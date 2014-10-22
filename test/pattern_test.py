@@ -96,6 +96,37 @@ class RepeatTest(PatternTest):
         self.assertEqual([3, 2, 1], self.collector.results)
 
 
+class SurfaceTest(PatternTest):
+    def setUp(self):
+        PatternTest.setUp(self)
+        self.pattern = mrep.pattern.Surface('xyz')
+
+    def testMatchOne(self):
+        seq = [
+            {'surface': 'x'},
+            {'surface': 'yz'},
+            {'surface': 'w'},
+        ]
+        self.pattern.match(seq, 0, self.collector.collect)
+        self.assertEqual([2], self.collector.results)
+
+    def testMatchTwo(self):
+        seq = [
+            {'surface': 'x'},
+            {'surface': 'y'},
+            {'surface': 'zw'},
+        ]
+        self.pattern.match(seq, 0, self.collector.collect)
+        self.assertEqual([], self.collector.results)
+
+    def testTooShortInput(self):
+        seq = [
+            {'surface': 'x'}
+        ]
+        self.pattern.match(seq, 0, self.collector.collect)
+        self.assertEqual([], self.collector.results)
+
+
 class FindTest(unittest.TestCase):
     def testFind(self):
         c = mrep.pattern.Repeat(mrep.pattern.Condition(lambda x: 'x' == x))
