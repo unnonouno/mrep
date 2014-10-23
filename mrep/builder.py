@@ -1,6 +1,14 @@
 import mrep.pattern as pattern
 import re
-from cStringIO import StringIO
+import sys
+
+if sys.version_info >= (3, 0):
+    from io import StringIO
+else:
+    try:
+        from cStringIO import StringIO
+    except ImportError:
+        from StringIO import StringIO
 
 
 class ParseError(Exception):
