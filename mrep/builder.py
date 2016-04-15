@@ -96,13 +96,22 @@ def term(s, pos):
         p = consume(s, p, ')')
         return (p, t)
     elif c == '<':
+        m = re.match(r'<([^>]+)=~([^>]+)>', s[pos:])
+        if m:
+            p = pos + m.end()
+            key = m.group(1)
+            pat = m.group(2)
+            return p, pattern.Condition(
+                lambda x: key in x and re.search(pat, x[key]))
+
         m = re.match(r'<([^>]+)=([^>]+)>', s[pos:])
-        if not m:
-            raise InvalidPattern(pos)
-        p = pos + m.end()
-        key = m.group(1)
-        value = m.group(2)
-        return p, pattern.Condition(lambda x: key in x and x[key] == value)
+        if m:
+            p = pos + m.end()
+            key = m.group(1)
+            value = m.group(2)
+            return p, pattern.Condition(lambda x: key in x and x[key] == value)
+
+        raise InvalidPattern(pos)
 
     elif c == '.':
         return pos + 1, pattern.Condition(lambda x: True)

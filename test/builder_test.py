@@ -18,6 +18,15 @@ class TermTest(unittest.TestCase):
         t.match([{'x': 'y'}], 0, lambda s, p: ps.append(p))
         self.assertEqual([1], ps)
 
+    def testPatternCondition(self):
+        p, t = mrep.builder.term('<x=~y>', 0)
+        self.assertIsNotNone(t)
+        self.assertEqual(6, p)
+        self.assertEqual('.', repr(t))
+        ps = []
+        t.match([{'x': 'zyw'}], 0, lambda s, p: ps.append(p))
+        self.assertEqual([1], ps)
+
     def testParen(self):
         p, t = mrep.builder.term('(.)', 0)
         self.assertIsNotNone(t)
