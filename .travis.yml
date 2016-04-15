@@ -7,6 +7,7 @@ python:
   - "3.4"
 
 install:
+  - pip install coverage -U
   - pip install tornado
   - pip install coveralls
   - wget https://mecab.googlecode.com/files/mecab-0.996.tar.gz
