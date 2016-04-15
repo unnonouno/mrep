@@ -68,6 +68,12 @@ Pattern
 `<pos=XXX>`
   matches morphemes whose POS are `XXX`
 
+`<feature=XXX>`
+  matches morphemes whose features are `XXX`
+
+`<feature=~XXX>`
+  matches morphemes whose features maches a RegExp pattern `XXX`
+
 `X*`
   matches repetiion of a pattern X
 
