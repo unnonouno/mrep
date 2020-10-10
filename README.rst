@@ -16,7 +16,7 @@ Requirement
 ===========
 
 - Python >=2.7
-- mecab-python3 ( https://github.com/SamuraiT/mecab-python3 )
+- mecab-python ( https://github.com/SamuraiT/mecab-python3 )
 
 
 Install
@@ -26,6 +26,11 @@ Install
 
    $ pip install mrep
 
+If you do not have a dictionary for MeCab, install `unidic-lite`.
+
+::
+
+   $ pip install unidic-lite
 
 If you want to install it from its source, use `setup.py`.
 
