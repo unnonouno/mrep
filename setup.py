@@ -5,7 +5,7 @@ from setuptools import setup
 from mrep import __version__
 
 requires = [
-    'mecab-python3',
+    'mecab-python3>=1.0.0',
     ]
 
 def read(name):

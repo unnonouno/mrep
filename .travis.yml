@@ -2,29 +2,16 @@ language: python
 
 python:
   - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
 
 install:
   - pip install coverage==3.7.1
   - pip install tornado
   - pip install coveralls
-  - wget https://mecab.googlecode.com/files/mecab-0.996.tar.gz
-  - tar zxvf mecab-0.996.tar.gz
-  - pushd mecab-0.996
-  - ./configure
-  - make && make check && sudo make install
-  - popd
-  - sudo ldconfig
-  - wget http://mecab.googlecode.com/files/mecab-ipadic-2.7.0-20070801.tar.gz
-  - tar zxvf mecab-ipadic-2.7.0-20070801.tar.gz
-  - pushd mecab-ipadic-2.7.0-20070801
-  - ./configure --with-charset=utf8
-  - make && make check && sudo make install
-  - popd
-  - sudo ldconfig
-  - pip install mecab-python3
+  - pip install mecab-python3 unidic-lite
 
 script:
   - PYTHONPATH=.:$PYTHONPATH coverage run --source=mrep,scripts setup.py test

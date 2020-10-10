@@ -9,7 +9,7 @@ class ParseTest(unittest.TestCase):
         parser = mrep.morph.MeCabParser()
         ms = parser.parse('我輩は猫だ')
         expect = [
-            {'surface': '我輩', 'pos': '名詞'},
+            {'surface': '我輩', 'pos': '代名詞'},
             {'surface': 'は', 'pos': '助詞'},
             {'surface': '猫', 'pos': '名詞'},
             {'surface': 'だ', 'pos': '助動詞'},
